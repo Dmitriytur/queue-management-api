@@ -2,6 +2,7 @@ package ua.nure.queuemanagementapi.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -16,10 +17,10 @@ public class CompanyEntity {
     @Id
     private String id;
 
+    @Column(name = "name")
     private String name;
 
-    private String address;
-
+    @Column(name = "description")
     private String description;
 
     @ManyToOne
