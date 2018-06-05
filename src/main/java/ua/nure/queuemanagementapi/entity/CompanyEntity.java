@@ -12,20 +12,13 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "companies")
-public class CompanyEntity {
-
-    @Id
-    private String id;
+public class CompanyEntity extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "description")
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private UserEntity manager;
 
     @ManyToOne
     @JoinColumn(name = "root_category_id")

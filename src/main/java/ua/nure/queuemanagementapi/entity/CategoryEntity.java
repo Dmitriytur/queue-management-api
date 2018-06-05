@@ -15,10 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "categories")
-public class CategoryEntity {
-
-    @Id
-    private String id;
+public class CategoryEntity extends AbstractEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_category_id")

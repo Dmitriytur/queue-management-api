@@ -13,10 +13,7 @@ import java.time.ZonedDateTime;
 @Data
 @Entity
 @Table(name = "queues")
-public class QueueEntity {
-
-    @Id
-    private String id;
+public class QueueEntity extends AbstractEntity {
 
     @Column(name = "name")
     private String name;

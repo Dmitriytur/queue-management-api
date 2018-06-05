@@ -13,10 +13,7 @@ import java.time.ZonedDateTime;
 @Data
 @Entity
 @Table(name = "time_slots")
-public class TimeSlotEntity {
-
-    @Id
-    private String id;
+public class TimeSlotEntity extends AbstractEntity {
 
     @Column(name = "start_time")
     private ZonedDateTime startTime;
@@ -28,7 +25,8 @@ public class TimeSlotEntity {
     @JoinColumn(name = "queue_id")
     private QueueEntity queue;
 
-    @Column(name = "client_id")
+    @ManyToOne
+    @JoinColumn(name = "client_id")
     private UserEntity client;
 
     @Column(name = "client_details")
