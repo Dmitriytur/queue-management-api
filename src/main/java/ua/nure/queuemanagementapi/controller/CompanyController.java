@@ -13,7 +13,6 @@ import ua.nure.queuemanagementapi.entity.CompanyEntity;
 import ua.nure.queuemanagementapi.repository.CompanyRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/companies")
