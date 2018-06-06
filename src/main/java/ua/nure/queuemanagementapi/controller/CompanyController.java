@@ -26,6 +26,10 @@ public class CompanyController {
         return companyRepository.save(companyEntity).getId();
     }
 
+    public void update(@PathVariable String companyId, @RequestBody CompanyEntity categoryEntity) {
+
+    }
+
     @PutMapping("/{companyId}/root-category")
     public void update(@PathVariable String companyId, @RequestBody CategoryEntity categoryEntity) {
         Optional<CompanyEntity> company = companyRepository.findById(companyId);
