@@ -6,4 +6,5 @@ import ua.nure.queuemanagementapi.entity.CompanyEntity;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, String> {
+
 }

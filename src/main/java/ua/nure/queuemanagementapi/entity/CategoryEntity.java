@@ -1,11 +1,11 @@
 package ua.nure.queuemanagementapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,8 +17,9 @@ import java.util.List;
 @Table(name = "categories")
 public class CategoryEntity extends AbstractEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "parent_category_id")
+    @JsonIgnore
     private CategoryEntity parent;
 
     @Column(name = "value")
@@ -28,5 +29,5 @@ public class CategoryEntity extends AbstractEntity {
     private String nextCategoryName;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<CategoryEntity> childCategories;
+    private List<CategoryEntity> options;
 }
