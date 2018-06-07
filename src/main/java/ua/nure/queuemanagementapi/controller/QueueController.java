@@ -2,14 +2,19 @@ package ua.nure.queuemanagementapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.nure.queuemanagementapi.converter.service.ExtendedConversionService;
+import ua.nure.queuemanagementapi.dto.CreateQueueDto;
 import ua.nure.queuemanagementapi.dto.QueueDto;
 import ua.nure.queuemanagementapi.entity.CategoryEntity;
 import ua.nure.queuemanagementapi.entity.QueueEntity;
+import ua.nure.queuemanagementapi.entity.UserEntity;
 import ua.nure.queuemanagementapi.repository.QueueRepository;
+import ua.nure.queuemanagementapi.service.QueueService;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -18,49 +23,50 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/queue")
+@RequestMapping("/queues")
 public class QueueController {
 
     @Autowired
     private QueueRepository queueRepository;
 
     @Autowired
+    private QueueService queueService;
+
+    @Autowired
     private ExtendedConversionService conversionService;
+
+    @PostMapping
+    public void add(@RequestBody CreateQueueDto dto) {
+        QueueEntity entity = conversionService.convert(dto, QueueEntity.class);
+        queueService.add(entity);
+    }
 
     @GetMapping
     public List<QueueDto> find(
             @RequestParam("categoryId") String categoryId,
             @RequestParam("startDate") Long startDate,
-            @RequestParam("endDate") Long endDate) {
-//        QueueEntity queueEntity = new QueueEntity();
-//        queueEntity.setName("Queue name");
-//        queueEntity.setDescription("Test queue");
-//        queueEntity.setStartTime(ZonedDateTime.of(2018, 6, 7,
-//                8, 0, 0, 0, ZoneOffset.UTC));
-//        queueEntity.setEndTime(ZonedDateTime.of(2018, 6, 7,
-//                19, 0, 0, 0, ZoneOffset.UTC));
-//
-//        UserEntity manager = new UserEntity();
-//        manager.setId("686b4b4c-f52a-4b72-b592-9fe1753c6091");
-//        queueEntity.setManager(manager);
-//
-//        CategoryEntity category = new CategoryEntity();
-//        category.setId("8e95e800-c4ed-47e1-a5a0-09b666881c63");
-//        queueEntity.setCategory(category);
-//
-//        queueEntity.setSlotDuration(30);
-//
-//        queueRepository.save(queueEntity);
-
+            @RequestParam("endDate") Long endDate,
+            @RequestParam("managerId") String managerId) {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setId(categoryId);
         ZonedDateTime startDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startDate), ZoneOffset.UTC);
         ZonedDateTime endDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(endDate), ZoneOffset.UTC);
-        List<QueueEntity> byCategory = queueRepository.findByCategory(categoryEntity);
-        byCategory = byCategory.stream()
+        List<QueueEntity> queues;
+        if (managerId == null) {
+            queues = queueRepository.findByCategoryOrderByStartTime(categoryEntity);
+        } else {
+            UserEntity manager = new UserEntity();
+            manager.setId(managerId);
+            queues = queueRepository.findByCategoryAndManagerOrderByStartTime(categoryEntity, manager);
+        }
+        queues = queues.stream()
                 .filter(q -> q.getStartTime().isAfter(startDateTime) && q.getStartTime().isBefore(endDateTime))
                 .collect(Collectors.toList());
-        return conversionService.convertAll(byCategory, QueueDto.class);
+        queues.stream()
+                .map(QueueEntity::getTimeSlots)
+                .forEach(timeSlots -> timeSlots.sort((o1, o2) ->
+                        o1.getStartTime().compareTo(o2.getStartTime())));
+        return conversionService.convertAll(queues, QueueDto.class);
     }
 
 }

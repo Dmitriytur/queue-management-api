@@ -2,6 +2,7 @@ package ua.nure.queuemanagementapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Data
+@ToString(exclude = "options")
 @Entity
 @Table(name = "categories")
 public class CategoryEntity extends AbstractEntity {

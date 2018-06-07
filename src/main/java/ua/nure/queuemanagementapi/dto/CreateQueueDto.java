@@ -2,12 +2,8 @@ package ua.nure.queuemanagementapi.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class QueueDto {
-
-    private String id;
+public class CreateQueueDto {
 
     private String name;
 
@@ -19,5 +15,8 @@ public class QueueDto {
 
     private Integer duration;
 
-    private List<TimeSlotDto> timeSlots;
+    private String managerId;
+
+    private String categoryId;
+
 }

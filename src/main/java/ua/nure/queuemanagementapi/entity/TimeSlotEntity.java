@@ -21,7 +21,7 @@ public class TimeSlotEntity extends AbstractEntity {
     private ZonedDateTime startTime;
 
     @Column(name = "duration")
-    private Long duration;
+    private Integer duration;
 
     @ManyToOne
     @JoinColumn(name = "queue_id")

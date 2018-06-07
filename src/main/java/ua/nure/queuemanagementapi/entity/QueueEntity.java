@@ -1,6 +1,7 @@
 package ua.nure.queuemanagementapi.entity;
 
 import lombok.Data;
+import lombok.ToString;
 import ua.nure.queuemanagementapi.converter.TimestampConverter;
 
 import javax.persistence.Column;
@@ -8,10 +9,13 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Data
+@ToString(exclude = "timeSlots")
 @Entity
 @Table(name = "queues")
 public class QueueEntity extends AbstractEntity {
@@ -40,5 +44,8 @@ public class QueueEntity extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+
+    @OneToMany(mappedBy = "queue")
+    private List<TimeSlotEntity> timeSlots;
 
 }
