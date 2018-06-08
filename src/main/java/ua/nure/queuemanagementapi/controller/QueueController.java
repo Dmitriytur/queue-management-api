@@ -19,6 +19,7 @@ import ua.nure.queuemanagementapi.service.QueueService;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +47,7 @@ public class QueueController {
             @RequestParam("categoryId") String categoryId,
             @RequestParam("startDate") Long startDate,
             @RequestParam("endDate") Long endDate,
-            @RequestParam("managerId") String managerId) {
+            @RequestParam(value = "managerId", required = false) String managerId) {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setId(categoryId);
         ZonedDateTime startDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(startDate), ZoneOffset.UTC);
@@ -60,7 +61,9 @@ public class QueueController {
             queues = queueRepository.findByCategoryAndManagerOrderByStartTime(categoryEntity, manager);
         }
         queues = queues.stream()
-                .filter(q -> q.getStartTime().isAfter(startDateTime) && q.getStartTime().isBefore(endDateTime))
+                .filter(q ->
+                        !q.getStartTime().isBefore(startDateTime.plus(1, ChronoUnit.DAYS)) &&
+                        !q.getStartTime().isAfter(endDateTime.plus(1, ChronoUnit.DAYS)))
                 .collect(Collectors.toList());
         queues.stream()
                 .map(QueueEntity::getTimeSlots)

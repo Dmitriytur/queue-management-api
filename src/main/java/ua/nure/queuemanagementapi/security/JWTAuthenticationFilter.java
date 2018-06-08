@@ -1,11 +1,8 @@
 package ua.nure.queuemanagementapi.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.DefaultClaims;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -72,7 +69,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         claims.put("sub", userEntity.getLogin());
         claims.put("role", userEntity.getRole());
         claims.put("exp", new Date(System.currentTimeMillis() + EXPIRATION_TIME));
-
 
         String token = Jwts.builder()
                 .setClaims(claims)
