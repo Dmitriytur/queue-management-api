@@ -1,6 +1,7 @@
 package ua.nure.queuemanagementapi.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ua.nure.queuemanagementapi.converter.TimestampConverter;
 
@@ -15,6 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(exclude = "timeSlots")
 @Entity
 @Table(name = "queues")

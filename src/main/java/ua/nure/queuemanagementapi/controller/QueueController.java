@@ -19,7 +19,6 @@ import ua.nure.queuemanagementapi.service.QueueService;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,8 +61,8 @@ public class QueueController {
         }
         queues = queues.stream()
                 .filter(q ->
-                        !q.getStartTime().isBefore(startDateTime.plus(1, ChronoUnit.DAYS)) &&
-                        !q.getStartTime().isAfter(endDateTime.plus(1, ChronoUnit.DAYS)))
+                        !q.getStartTime().isBefore(startDateTime) &&
+                        q.getStartTime().isBefore(endDateTime))
                 .collect(Collectors.toList());
         queues.stream()
                 .map(QueueEntity::getTimeSlots)

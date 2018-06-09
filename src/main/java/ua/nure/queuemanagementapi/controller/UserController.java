@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.nure.queuemanagementapi.converter.service.ExtendedConversionService;
 import ua.nure.queuemanagementapi.dto.UserDto;
+import ua.nure.queuemanagementapi.entity.CategoryEntity;
 import ua.nure.queuemanagementapi.entity.CompanyEntity;
 import ua.nure.queuemanagementapi.entity.Role;
 import ua.nure.queuemanagementapi.entity.UserEntity;
@@ -37,6 +38,9 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody UserEntity user) {
+        if (user.getRole() == Role.ADMIN) {
+            user.getCompany().setRootCategory(new CategoryEntity());
+        }
         if (user.getRole() == Role.MANAGER) {
             user.setCompany(companyRepository.getOne(user.getCompany().getId()));
         }

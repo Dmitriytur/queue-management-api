@@ -1,6 +1,7 @@
 package ua.nure.queuemanagementapi.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import ua.nure.queuemanagementapi.converter.TimestampConverter;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "time_slots")
 public class TimeSlotEntity extends AbstractEntity {

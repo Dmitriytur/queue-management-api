@@ -2,6 +2,7 @@ package ua.nure.queuemanagementapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(exclude = "options")
 @Entity
 @Table(name = "categories")
@@ -28,6 +30,7 @@ public class CategoryEntity extends AbstractEntity {
     private String value;
 
     @Column(name = "next_category_name")
+    @JsonIgnore
     private String nextCategoryName;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
