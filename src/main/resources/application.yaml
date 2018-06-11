@@ -16,3 +16,6 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+sms.service:
+  login: ${SMS_SERVICE_LOGIN:<login>}
+  password: ${SMS_SERVICE_PASSWORD:<password>}

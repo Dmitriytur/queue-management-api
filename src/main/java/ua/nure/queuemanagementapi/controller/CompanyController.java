@@ -33,6 +33,12 @@ public class CompanyController {
     @Autowired
     private ExtendedConversionService conversionService;
 
+
+    @GetMapping
+    private List<CompanyEntity> find() {
+        return companyRepository.findAll();
+    }
+
     @PostMapping
     public String add(@RequestBody CompanyEntity companyEntity) {
         return companyRepository.save(companyEntity).getId();
