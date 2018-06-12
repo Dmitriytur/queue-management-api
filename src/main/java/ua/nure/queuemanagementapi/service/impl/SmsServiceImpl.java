@@ -1,6 +1,7 @@
 package ua.nure.queuemanagementapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import ua.nure.queuemanagementapi.service.SmsService;
 import ua.nure.queuemanagementapi.util.SMSSender;
@@ -8,6 +9,7 @@ import ua.nure.queuemanagementapi.util.SMSSender;
 import java.util.List;
 
 @Service
+@Profile("production")
 public class SmsServiceImpl implements SmsService {
 
     private SMSSender smsSender;
