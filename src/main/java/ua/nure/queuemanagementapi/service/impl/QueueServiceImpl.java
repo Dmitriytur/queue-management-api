@@ -61,7 +61,7 @@ public class QueueServiceImpl implements QueueService {
 
     private String formatMessageForClient(QueueEntity queue, TimeSlotEntity timeSlot, String message) {
         return String.format("%s Queue: \"%s\", time: %s", message, queue.getName(),
-                timeSlot.getStartTime().format(dateTimeFormatter));
+                timeSlot.getStartTime().plus(3, ChronoUnit.HOURS).format(dateTimeFormatter));
     }
 
     private List<ZonedDateTime> splitIntoTimeSlots(ZonedDateTime start, ZonedDateTime end, int duration) {
