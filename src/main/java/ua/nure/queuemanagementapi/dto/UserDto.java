@@ -9,4 +9,6 @@ public class UserDto {
 
     private String login;
 
+    private boolean activated;
+
 }

@@ -14,5 +14,6 @@ public class MockSmsService implements SmsService {
     public void sendMessages(String message, List<String> numbers) {
         String joinedNumbers = String.join(", ", numbers.toArray(new String[0]));
         System.out.println((String.format("Sending message: %s%nTo numbers: %s%n", message, joinedNumbers)));
+        throw new IllegalArgumentException("Wrong phone number");
     }
 }

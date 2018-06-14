@@ -15,6 +15,7 @@ import ua.nure.queuemanagementapi.entity.CategoryEntity;
 import ua.nure.queuemanagementapi.entity.QueueEntity;
 import ua.nure.queuemanagementapi.entity.UserEntity;
 import ua.nure.queuemanagementapi.repository.QueueRepository;
+import ua.nure.queuemanagementapi.repository.RegistrationTokenRepository;
 import ua.nure.queuemanagementapi.service.QueueService;
 
 import java.time.Instant;
@@ -35,6 +36,9 @@ public class QueueController {
 
     @Autowired
     private ExtendedConversionService conversionService;
+
+    @Autowired
+    private RegistrationTokenRepository registrationTokenRepository;
 
     @PostMapping
     public void add(@RequestBody CreateQueueDto dto) {

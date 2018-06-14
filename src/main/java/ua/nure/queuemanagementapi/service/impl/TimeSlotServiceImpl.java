@@ -2,6 +2,7 @@ package ua.nure.queuemanagementapi.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.nure.queuemanagementapi.dto.UpdateTimeSlotDto;
 import ua.nure.queuemanagementapi.entity.Role;
 import ua.nure.queuemanagementapi.entity.TimeSlotEntity;
@@ -31,6 +32,7 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     private DateTimeFormatter dateTimeFormatter;
 
     @Override
+    @Transactional
     public TimeSlotEntity assign(String slotId, UpdateTimeSlotDto dto) {
         UserEntity client = userRepository.findByLogin(dto.getPhone());
         if (client == null) {
@@ -40,6 +42,13 @@ public class TimeSlotServiceImpl implements TimeSlotService {
             userRepository.save(client);
         }
         TimeSlotEntity targetSlot = timeSlotRepository.getOne(slotId);
+
+
+        if (timeSlotRepository.existsByQueueAndClient(targetSlot.getQueue(), client)) {
+            throw new IllegalArgumentException("Client with such phone number is already enrolled to this queue");
+        }
+
+
         targetSlot.setClient(client);
         targetSlot.setClientDetails(dto.getDetails());
 

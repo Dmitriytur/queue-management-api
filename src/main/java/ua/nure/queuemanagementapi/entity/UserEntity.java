@@ -32,5 +32,8 @@ public class UserEntity extends AbstractEntity {
     @JoinColumn(name = "company_id")
     private CompanyEntity company;
 
+    @Column(name = "activated")
+    private Boolean activated;
+
 
 }

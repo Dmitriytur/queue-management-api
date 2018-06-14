@@ -13,6 +13,7 @@ public class UserEntityToDtoConverter implements Converter<UserEntity, UserDto> 
         UserDto userDto = new UserDto();
         userDto.setId(source.getId());
         userDto.setLogin(source.getLogin());
+        userDto.setActivated(source.getActivated());
         return userDto;
     }
 }
