@@ -1,9 +1,8 @@
 package ua.nure.queuemanagementapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,13 +34,16 @@ public class RegistrationTokenController {
 
 
 
+    @Transactional
     @PutMapping("/{tokenId}")
     public void registerByToken(@PathVariable String tokenId, @RequestBody String password) {
         RegistrationTokenEntity token = registrationTokenRepository.getOne(tokenId);
 
         UserEntity user = token.getUser();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        user.setActivated(true);
         userRepository.save(user);
+        registrationTokenRepository.delete(token);
     }
 
     @GetMapping("/{tokenId}/user")

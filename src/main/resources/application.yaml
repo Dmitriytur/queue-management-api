@@ -19,3 +19,17 @@ spring:
 sms.service:
   login: ${SMS_SERVICE_LOGIN:<login>}
   password: ${SMS_SERVICE_PASSWORD:<password>}
+email.sender:
+  login: ${EMAIL_SENDER_LOGIN:<login>}
+  password: ${EMAIL_SENDER_PASSWORD:<password>}
+
+server.hostname: localhost:8080
+server.register-token-path: /register-link
+
+
+#spring.mail.host: smtp.gmail.com
+#spring.mail.port: 587
+#spring.mail.username: ${EMAIL_SENDER_LOGIN:<login>}
+#spring.mail.password: ${EMAIL_SENDER_PASSWORD:<password>}
+#spring.mail.properties.mail.smtp.auth: true
+#spring.mail.properties.mail.smtp.starttls.enable: true

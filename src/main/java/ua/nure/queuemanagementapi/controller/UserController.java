@@ -17,9 +17,10 @@ import ua.nure.queuemanagementapi.entity.RegistrationTokenEntity;
 import ua.nure.queuemanagementapi.entity.Role;
 import ua.nure.queuemanagementapi.entity.UserEntity;
 import ua.nure.queuemanagementapi.repository.CompanyRepository;
-import ua.nure.queuemanagementapi.repository.RegistrationTokenRepository;
 import ua.nure.queuemanagementapi.repository.UserRepository;
+import ua.nure.queuemanagementapi.service.EmailService;
 import ua.nure.queuemanagementapi.service.RegistrationTokenService;
+import ua.nure.queuemanagementapi.util.RegisterEmailBuilder;
 
 import java.util.List;
 
@@ -42,6 +43,12 @@ public class UserController {
     @Autowired
     private RegistrationTokenService tokenService;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private RegisterEmailBuilder emailBuilder;
+
 
     @Transactional
     @PostMapping("/sign-up")
@@ -56,7 +63,9 @@ public class UserController {
             user.setCompany(companyRepository.getOne(user.getCompany().getId()));
             user.setActivated(false);
             userRepository.save(user);
-            tokenService.addTokenForUser(user);
+            RegistrationTokenEntity token = tokenService.addTokenForUser(user);
+            String mail = emailBuilder.buildEmailForRegisterToken(token.getId(), user.getCompany().getName());
+            emailService.sendMessage(user.getLogin(), "Queue management registration", mail);
         }
     }
 
