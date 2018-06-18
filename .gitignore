@@ -34,8 +34,6 @@ target/
 node/
 node_modules
  
-KhPP_Portal/**/build/
-KhPP_Portal/**/.gradle/
 /.gradle/
 
 # Text #
